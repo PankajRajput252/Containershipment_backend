@@ -472,7 +472,8 @@
        userWalletList.add(userWallet);
      }
      else if (Util.isDefined(inputFkId)) {
-       userWalletList = this.userWalletRepository.findByUserFkId(inputFkId);
+       UserWallet userWallet = this.userWalletRepository.findByUserFkId(inputFkId);
+       userWalletList.add(userWallet);
      } else {
 
        userWalletList = this.userWalletRepository.findAll();

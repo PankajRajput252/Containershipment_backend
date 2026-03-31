@@ -25,11 +25,25 @@ public class UserWallet {
     @Column(name = "AVAILABLE_BALANCE")
     private BigDecimal availableBalance;
 
+    @Column(name = "FRONZEN_BALANCE")
+    private BigDecimal frozenBalance; // hold amount during withdrawal
+
     @Column(name = "LAST_UPDATE")
     private String lastUpdated;
 
     @Transient
     private User user;
+
+    public UserWallet() {
+    }
+
+    public UserWallet(String userFkId, BigDecimal totalEarned, BigDecimal totalWithdrawn, BigDecimal availableBalance, BigDecimal frozenBalance) {
+        this.userFkId = userFkId;
+        this.totalEarned = totalEarned;
+        this.totalWithdrawn = totalWithdrawn;
+        this.availableBalance = availableBalance;
+        this.frozenBalance = frozenBalance;
+    }
 
     public int getUserWalletPkId() {
         return userWalletPkId;
@@ -85,5 +99,13 @@ public class UserWallet {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public BigDecimal getFrozenBalance() {
+        return frozenBalance;
+    }
+
+    public void setFrozenBalance(BigDecimal frozenBalance) {
+        this.frozenBalance = frozenBalance;
     }
 }
