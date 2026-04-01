@@ -92,7 +92,7 @@ public class CryptoDepositServiceImpl implements CryptoDepositService {
     @Transactional
     public Map<String, Object> createDepositV2(DepositRequest req) {
 
-        String payCurrency = mapUserCurrency(req.getSelectedCurrency());
+//        String payCurrency = mapUserCurrency(req.getSelectedCurrency());
 
         // Step 1: Convert INR → USD using NowPayments rate
         BigDecimal finalPriceAmount = req.getAmount();
@@ -115,8 +115,9 @@ public class CryptoDepositServiceImpl implements CryptoDepositService {
         Map<String, Object> payload = new HashMap<>();
         payload.put("price_amount", finalPriceAmount);
         payload.put("price_currency", "usd");   // keeps consistent
-        payload.put("pay_currency", payCurrency);
-        payload.put("ipn_callback_url", "http://minecryptos-env.eba-nsbmtw9i.ap-south-1.elasticbeanstalk.com/api/deposit/webhook");
+//        payload.put("pay_currency", payCurrency);
+        payload.put("pay_currency", "bnbbsc");
+        payload.put("ipn_callback_url", "http://containershipment-app-env.eba-p7ijagki.ap-south-1.elasticbeanstalk.com/api/deposit/webhook");
 
 //        payload.put("is_fixed_rate", true);
 //        payload.put("strict_amount", true);
