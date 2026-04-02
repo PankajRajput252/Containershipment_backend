@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
@@ -96,7 +97,8 @@ public class CryptoDepositServiceImpl implements CryptoDepositService {
 
         // Step 1: Convert INR → USD using NowPayments rate
         BigDecimal finalPriceAmount = req.getAmount();
-
+        logger.info("API KEY: {}", apiKey);
+        logger.info("BASE URL: {}", baseUrl);
         if("INR".equalsIgnoreCase(req.getSelectedCurrency())) {
             BigDecimal minAmount = getMinAmount("inr", "usdt");
 
@@ -126,8 +128,12 @@ public class CryptoDepositServiceImpl implements CryptoDepositService {
         headers.set("x-api-key", apiKey);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<?> entity = new HttpEntity<>(payload, headers);
+        headers.set("User-Agent", "Mozilla/5.0");
+        headers.set("Accept", "application/json");
+        headers.set("Connection", "keep-alive");
 
+        HttpEntity<?> entity = new HttpEntity<>(payload, headers);
+        try {
         ResponseEntity<Map> res =
                 restTemplate.postForEntity(baseUrl + "/payment", entity, Map.class);
 
@@ -148,6 +154,11 @@ public class CryptoDepositServiceImpl implements CryptoDepositService {
         }
 
         return response;
+        } catch (HttpClientErrorException ex) {
+            logger.error("NowPayments API error: {}", ex.getResponseBodyAsString());
+
+            throw new RuntimeException("Payment API blocked request: " + ex.getStatusCode());
+        }
     }
 
     private String mapUserCurrency(String currency) {
