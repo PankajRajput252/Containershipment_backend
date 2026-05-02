@@ -1,63 +1,26 @@
 package com.sgmprime.model.entitities;
 
-import com.sgmprime.model.User;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "t_withdraw_request")
-public class WithdrawRequest {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "WITHDRAW_REQUEST_PK_ID")
-    private int withdrawRequestPkId;
-
-    @Column(name = "USER_FK_ID")
+public class WithdrawRequestDTO {
+    private Integer withdrawRequestPkId;
     private String userFkId;
-
-    @Column(name = "INVESTMENT_FK_ID")
-    private int investmentFkId;
-
-    @Column(name = "REQUEST_AMOUNT")
+    private Integer investmentFkId;
     private BigDecimal requestAmount;
-
-    @Column(name = "CURRENCY")
     private String currency;
-
-    @Column(name = "WITHDRAWAL_METHOD")
     private String withdrawalMethod;
-
-    @Column(name = "WITHDRAWAL_ADDRESS")
-    private String withdrawalAddress;
-
-    @Enumerated(EnumType.STRING)
-    private WithdrawStatus status = WithdrawStatus.PENDING;
-
-    @Column(name = "REQUESTED_AT")
+    private String withdrawalAddress;  // ← add this field
+    private String status;
     private String requestedAt;
-
-    @Column(name = "APPROVED_AT")
     private String approvedAt;
-
-    @Column(name = "PAID_AT")
     private String paidAt;
-
-    @Column(name = "ADMIN_REMARK")
     private String adminRemark;
 
-    @Transient
-    private User user;
-
-    public enum WithdrawStatus {
-       ALL, PENDING, APPROVED, WITHDRAWN, REJECTED
-    }
-
-    public int getWithdrawRequestPkId() {
+    public Integer getWithdrawRequestPkId() {
         return withdrawRequestPkId;
     }
 
-    public void setWithdrawRequestPkId(int withdrawRequestPkId) {
+    public void setWithdrawRequestPkId(Integer withdrawRequestPkId) {
         this.withdrawRequestPkId = withdrawRequestPkId;
     }
 
@@ -69,11 +32,11 @@ public class WithdrawRequest {
         this.userFkId = userFkId;
     }
 
-    public int getInvestmentFkId() {
+    public Integer getInvestmentFkId() {
         return investmentFkId;
     }
 
-    public void setInvestmentFkId(int investmentFkId) {
+    public void setInvestmentFkId(Integer investmentFkId) {
         this.investmentFkId = investmentFkId;
     }
 
@@ -101,6 +64,21 @@ public class WithdrawRequest {
         this.withdrawalMethod = withdrawalMethod;
     }
 
+    public String getWithdrawalAddress() {
+        return withdrawalAddress;
+    }
+
+    public void setWithdrawalAddress(String withdrawalAddress) {
+        this.withdrawalAddress = withdrawalAddress;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getRequestedAt() {
         return requestedAt;
@@ -132,29 +110,5 @@ public class WithdrawRequest {
 
     public void setAdminRemark(String adminRemark) {
         this.adminRemark = adminRemark;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-   public String getWithdrawalAddress() {
-      return withdrawalAddress;
-   }
-
-   public void setWithdrawalAddress(String withdrawalAddress) {
-      this.withdrawalAddress = withdrawalAddress;
-   }
-
-   public void setStatus(WithdrawStatus status) {
-      this.status = status;
-   }
-
-    public WithdrawStatus getStatus() {
-        return status;
     }
 }

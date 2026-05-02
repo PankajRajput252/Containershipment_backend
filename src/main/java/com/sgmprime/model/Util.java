@@ -4,6 +4,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -212,4 +213,12 @@ public class Util {
         return String.valueOf((int)(Math.random() * 900000) + 100000);
     }
 
+    public static String formatLocalDateTime(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return null;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTime.format(formatter);
+    }
 }

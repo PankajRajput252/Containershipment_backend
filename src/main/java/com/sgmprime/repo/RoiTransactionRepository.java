@@ -10,4 +10,10 @@ public interface RoiTransactionRepository extends JpaRepository<RoiTransaction, 
   Long countByRoiTxnPkId(Integer paramInteger);
   
   List<RoiTransaction> findByUserFkId(String paramString);
+
+
+
+  // ✅ Add these two new methods
+  List<RoiTransaction> findByUserFkIdAndStatus(String userFkId, String status);
+  List<RoiTransaction> findByInvestmentFkIdAndStatus(int investmentFkId, String status);
 }

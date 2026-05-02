@@ -322,7 +322,15 @@
        roiTransactionList.add(roiTransaction);
      }
      else if (Util.isDefined(inputFkId)) {
-       roiTransactionList = this.roiTransactionRepository.findByUserFkId(inputFkId);
+//       roiTransactionList = this.roiTransactionRepository.findByUserFkId(inputFkId);
+       // ✅ KEY FIX: use filterBy if provided, otherwise return all
+       if (Util.isDefined(filterBy) && !filterBy.equalsIgnoreCase("ALL")) {
+         roiTransactionList = roiTransactionRepository
+                 .findByUserFkIdAndStatus(inputFkId, filterBy.toUpperCase());
+       } else {
+         roiTransactionList = roiTransactionRepository
+                 .findByUserFkId(inputFkId);
+       }
      } else {
 
        roiTransactionList = this.roiTransactionRepository.findAll();
@@ -645,7 +653,7 @@
     FinalResponse finalResponse = new FinalResponse();
     this.withdrawRequestRepository.findById(withdrawRequestPkId)
       .map(existing -> {
-          existing.setStatus(withdrawRequest.getStatus());
+//          existing.setStatus(withdrawRequest.getStatus());
           return (WithdrawRequest)this.withdrawRequestRepository.save(existing);
         }).orElseThrow(() -> new RuntimeException("withdrawRequest not found"));
     finalResponse = Util.setSuccessMessage(finalResponse);
