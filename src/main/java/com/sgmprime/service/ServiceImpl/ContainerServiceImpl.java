@@ -423,6 +423,13 @@
    public FinalResponse addSellRequest(SellRequest sellRequest) {
      FinalResponse finalResponse = new FinalResponse();
      this.sellRequestRepository.save(sellRequest);
+     Investment investment=investmentRepository.findByInvestmentPkId(sellRequest.getInvestmentFkId());
+     if(Util.isDefined(investment)){
+       finalResponse=deleteInvestment(investment.getInvestmentPkId());
+       if (!finalResponse.getStatusCode().equals("200")) {
+         return finalResponse;
+       }
+     }
      finalResponse = Util.setSuccessMessage(finalResponse);
      return finalResponse;
    }

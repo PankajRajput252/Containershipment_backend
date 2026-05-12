@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "t_sell_request")
+    @Table(name = "t_sell_request")
 public class SellRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
